@@ -144,3 +144,22 @@ export interface Series extends TvResponse {
 export type SearchResult = (
     MovieResponse & { media_type: 'movie' }
 ) | (TvResponse & { media_type: 'tv' })
+
+export type HeroItem = {
+    id: number
+    title: string
+    backdrop_path: string | null
+    media_type: 'movie' | 'tv',
+    genres: number[],
+    poster_path: string | null
+}
+
+export type ShowCard = {
+    id: number
+    title: string
+    poster_path: string | null
+    overview: string
+    vote_average: number
+    year: string
+    media_type: 'movie' | 'tv'
+}
