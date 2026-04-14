@@ -29,7 +29,7 @@ const CardSection = ({ show }: CardSectionProps) => {
             <img className={`object-cover h-90 w-full group-hover:scale-110 transition-all duration-300 ease-in-out cursor-pointer  ${isActive ? "scale-110" : ''}`} src={`https://image.tmdb.org/t/p/w500${show.poster_path}`} alt="" />
             <div className={`absolute inset-0 flex flex-col p-4 gap-2 bg-stone-800/90 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:z-10  ${isActive ? "opacity-100 z-10" : "opacity-0 -z-10"}`}>
                 <h1 className="text-white font-black text-xl uppercase tracking-tight">{show.title}</h1>
-                <p className="text-sm text-stone-400 text-justify line-clamp-4">{show.overview}</p>
+                <p className="text-sm text-stone-400 text-justify line-clamp-5">{show.overview}</p>
                 <div className="flex items-center gap-2">
                     <p className="text-stone-400">{new Date(show.year).getFullYear()}</p>
                     <p className="text-amber-300">&#9733; {show.vote_average.toFixed(2)}</p>

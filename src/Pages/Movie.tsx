@@ -10,9 +10,65 @@ const Movie = () => {
     if (!movie) return <p>No Data!!!</p>
 
     return (
-        <div className="w-full h-auto">
-            {movie.title}
-        </div>
+        <div className="w-full h-auto flex flex-col gap-y-4">
+            <div className="w-full h-120 md:h-200 relative">
+                <img src={`https:image.tmdb.org/t/p/original/${movie.backdrop_path}`} className="w-full h-full object-cover" alt="" />
+                <div className="absolute inset-0 bg-linear-to-t from-stone-800 via-stone-800/50 to-transparent" />
+            </div>
+            <div className="p-4 flex items-center justify-between max-w-7xl mx-auto w-full -mt-10 z-10">
+                <div className="space-y-1 min-w-0">
+                    <div className="flex items-center gap-x-2">
+                        <p className="text-sm text-stone-500 font-light">{new Date(movie.release_date).getFullYear()}</p>
+                        <p className="text-amber-300 text-sm font-semibold">&#9733; {movie.vote_average.toFixed(2)}</p>
+
+                    </div>
+                    <h1 className="font-black text-xl text-white tracking-tight uppercase">{movie.title}</h1>
+                    <div className="flex gap-2 items-center">
+                        {movie.production_countries.map(c => (
+                            <p className="text-sm text-stone-500 font-light" key={`country-${c.iso_3166_1}${c.name}${movie.id}`}>{c.name}</p>
+                        ))}
+                    </div>
+                    <p className="text-sm font-semibold text-stone-500">Directed by{" "}
+                        {movie.credits.crew
+                            .filter(c => c.job === "Director")
+                            .map((c, index, array) => (
+                                <span key={c.id}>
+                                    <span className="text-stone-50 font-black">{c.name}</span>
+                                    {index < array.length - 1 && (
+                                        <span className="text-stone-500">
+                                            {index === array.length - 2 ? " & " : ", "}
+                                        </span>
+                                    )}
+                                </span>
+                            ))}
+                    </p>
+                    <div className="flex gap-x-2 items-center overflow-x-auto pb-2 scrollbar-thin ">
+                        {movie.genres.map(g => (
+                            <div key={`genre-${movie.id}${g.id}${g.name}`} className="px-2 py-0.5 border border-white/30 rounded-lg shrink-0">
+                                <p className="text-stone-500 text-sm whitespace-nowrap">{g.name}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <img src={`https:image.tmdb.org/t/p/w500/${movie.poster_path}`} alt="" className="w-80 h-120 object-cover hidden md:block rounded-lg border border-white/30" />
+            </div>
+            <div className="space-y-1 max-w-7xl mx-auto w-full p-4">
+                <section className="space-y-2">
+                    <h3 className="text-stone-500 font-light">Overview</h3>
+                    <p className="text-sm text-stone-300 leading-relaxed tracking-normal text-pretty">{movie.overview}</p>
+                </section>
+                <section className="space-y-2">
+                    <h3 className="text-stone-500 font-light">Cast</h3>
+                    <div className="w-full overflow-x-auto flex items-center gap-x-2.5 scrollbar-thin">
+                        {movie.credits.cast.filter(c => c.profile_path !== undefined && c.profile_path !== null).map(c => (
+                            <div className="shrink-0 w-20 h-20" key={`actor-${c.name}${c.character}${c.id}`}>
+                                <img src={`https://image.tmdb.org/t/p/w500/${c.profile_path}`} alt={`actor ${c.name}`} className="rounded-full ring ring-white/30 object-cover w-20 h-20" />
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            </div>
+        </div >
 
     )
 }
