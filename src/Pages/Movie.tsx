@@ -8,6 +8,7 @@ const Movie = () => {
     if (isLoading) return <p>IsLoading</p>
     if (isError) return <p>IsError</p>
     if (!movie) return <p>No Data!!!</p>
+    console.log(movie);
 
     return (
         <div className="w-full h-auto flex flex-col gap-y-4">
@@ -59,12 +60,33 @@ const Movie = () => {
                 </section>
                 <section className="space-y-2">
                     <h3 className="text-stone-500 font-light">Cast</h3>
-                    <div className="w-full overflow-x-auto flex items-center gap-x-2.5 scrollbar-thin">
-                        {movie.credits.cast.filter(c => c.profile_path !== undefined && c.profile_path !== null).map(c => (
-                            <div className="shrink-0 w-20 h-20" key={`actor-${c.name}${c.character}${c.id}`}>
-                                <img src={`https://image.tmdb.org/t/p/w500/${c.profile_path}`} alt={`actor ${c.name}`} className="rounded-full ring ring-white/30 object-cover w-20 h-20" />
-                            </div>
-                        ))}
+                    <div className="w-full overflow-x-auto flex items-start gap-x-4 scrollbar-thin">
+                        {movie.credits.cast
+                            .filter(c => c.profile_path !== undefined && c.profile_path !== null && !c.character.includes("Rejected"))
+                            .map(c => (
+                                <div className="shrink-0 w-24 flex flex-col gap-y-1" key={`actor-${c.name}${c.character}${c.id}`}>
+                                    <div className="w-24 h-24 shrink-0">
+                                        <img
+                                            src={`https://image.tmdb.org/t/p/w500/${c.profile_path}`}
+                                            alt={`actor ${c.name}`}
+                                            className="rounded-lg border border-white/30 object-cover w-full h-full"
+                                        />
+                                    </div>
+                                    <p className="text-xs text-stone-500 tracking-tighter text-center">{c.name}</p>
+                                    <p className="text-xs font-black text-white tracking-tighter text-center">{c.character}</p>
+                                </div>
+                            ))}
+                    </div>
+                </section>
+                <section className="space-y-2">
+                    <h3 className="text-stone-500 font-light">Recommendations</h3>
+                    <div className="w-full overflow-x-auto flex items-start gap-x-4 scrollbar-thin">
+                        {movie.recommendations
+                            .map(c => (
+                                <div key={`Recommendations-${movie.id}${c.id}`}>
+                                    {c.title}
+                                </div>
+                            ))}
                     </div>
                 </section>
             </div>
