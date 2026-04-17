@@ -60,7 +60,7 @@ const Home = () => {
                 </div>
             </section>
             <section className='px-4 space-y-4'>
-                <h2 className='text-stone-500 uppercase font-semibold text-xl'>TopRated TV Series</h2>
+                <h2 className='text-stone-500 uppercase font-semibold text-xl'>Top Rated TV Series</h2>
                 <div className='  pb-2 flex items-center gap-3 overflow-x-auto pr-4 scrollbar-thin'>
                     {topRatedSeries?.results.map((tv) => (
                         <CardSection key={`tv-top-rated-${tv.id}${tv.name}`} show={{ ...tv, title: tv.name, year: tv.first_air_date, media_type: "tv" }} />

@@ -1,5 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useMovie } from "../hooks/useMovie";
+import { formatCurrency } from "../lib/util";
+import CardSection from "../Components/Cards/CardSection";
 
 const Movie = () => {
     const { id } = useParams();
@@ -8,7 +10,6 @@ const Movie = () => {
     if (isLoading) return <p>IsLoading</p>
     if (isError) return <p>IsError</p>
     if (!movie) return <p>No Data!!!</p>
-    console.log(movie);
 
     return (
         <div className="w-full h-auto flex flex-col gap-y-4">
@@ -50,10 +51,14 @@ const Movie = () => {
                             </div>
                         ))}
                     </div>
+                    <div className="flex gap-x-2 items-center">
+                        <p className="text-sm text-stone-500">Budget: <span className="text-white font-black">{movie.budget > 0 ? formatCurrency(movie.budget) : "No Data"}</span></p>
+                        <p className="text-sm text-stone-500">Revenue: <span className="text-white font-black">{movie.revenue > 0 ? formatCurrency(movie.revenue) : "No Data"}</span></p>
+                    </div>
                 </div>
                 <img src={`https:image.tmdb.org/t/p/w500/${movie.poster_path}`} alt="" className="w-80 h-120 object-cover hidden md:block rounded-lg border border-white/30" />
             </div>
-            <div className="space-y-1 max-w-7xl mx-auto w-full p-4">
+            <div className="space-y-2 max-w-7xl mx-auto w-full p-4">
                 <section className="space-y-2">
                     <h3 className="text-stone-500 font-light">Overview</h3>
                     <p className="text-sm text-stone-300 leading-relaxed tracking-normal text-pretty">{movie.overview}</p>
@@ -79,13 +84,32 @@ const Movie = () => {
                     </div>
                 </section>
                 <section className="space-y-2">
+                    <h3 className="text-stone-500 font-light">Trailers</h3>
+                    {/* Added snap-x for a better mobile swiping feel */}
+                    <div className="w-full overflow-x-auto flex items-start gap-x-4 scrollbar-thin snap-x snap-mandatory">
+                        {movie.trailer?.results
+                            .filter(v => v.type.toLowerCase() === "trailer" && v.site === "YouTube")
+                            .map(c => (
+                                <div key={`trailer-${movie.id}${c.id}`} className="shrink-0 snap-center">
+                                    <iframe
+                                        className="w-[85vw] md:w-150 aspect-video rounded-lg shadow-md"
+                                        src={`https://www.youtube.com/embed/${c.key}`}
+                                        title="YouTube video player"
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        referrerPolicy="strict-origin-when-cross-origin"
+                                        allowFullScreen>
+                                    </iframe>
+                                </div>
+                            ))}
+                    </div>
+                </section>
+                <section className="space-y-2">
                     <h3 className="text-stone-500 font-light">Recommendations</h3>
                     <div className="w-full overflow-x-auto flex items-start gap-x-4 scrollbar-thin">
                         {movie.recommendations
                             .map(c => (
-                                <div key={`Recommendations-${movie.id}${c.id}`}>
-                                    {c.title}
-                                </div>
+                                <CardSection key={`movie-recommendations-${c.id}`} show={{ ...c, media_type: c.media_type, title: c.title, year: c.release_date }} />
                             ))}
                     </div>
                 </section>
