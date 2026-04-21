@@ -55,6 +55,8 @@ const Movie = () => {
                         <p className="text-sm text-stone-500">Budget: <span className="text-white font-black">{movie.budget > 0 ? formatCurrency(movie.budget) : "No Data"}</span></p>
                         <p className="text-sm text-stone-500">Revenue: <span className="text-white font-black">{movie.revenue > 0 ? formatCurrency(movie.revenue) : "No Data"}</span></p>
                     </div>
+                    <p className="text-sm text-stone-500">Duration <span className="text-white font-black">{Math.floor(movie.runtime / 60)}H {movie.runtime % 60 > 0 && (movie.runtime % 60 + " m")}</span></p>
+
                 </div>
                 <img src={`https:image.tmdb.org/t/p/w500/${movie.poster_path}`} alt="" className="w-80 h-120 object-cover hidden md:block rounded-lg border border-white/30" />
             </div>
@@ -115,7 +117,6 @@ const Movie = () => {
                 </section>
             </div>
         </div >
-
     )
 }
 

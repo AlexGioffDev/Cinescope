@@ -109,7 +109,8 @@ export interface Movie extends MovieResponse {
     genres: Genre[],
     budget: number,
     revenue: number,
-    production_countries: ProductionCountry[]
+    production_countries: ProductionCountry[],
+    runtime: number
 }
 
 interface Network {
