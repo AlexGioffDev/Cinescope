@@ -8,68 +8,41 @@ const Home = () => {
     if (isLoading) return <p>Loading...</p>
     if (isError) return <p>Error loading data</p>
 
+    const sections = [
+        { label: "Trending Movies", items: trendingMovies?.results, type: "movie" as const, keyField: "title" as const, dateField: "release_date" as const },
+        { label: "Trending TV Series", items: trendingSeries?.results, type: "tv" as const, keyField: "name" as const, dateField: "first_air_date" as const },
+        { label: "Upcoming Movies", items: upcomingMovies?.results, type: "movie" as const, keyField: "title" as const, dateField: "release_date" as const },
+        { label: "Popular Movies", items: popularMovies?.results, type: "movie" as const, keyField: "title" as const, dateField: "release_date" as const },
+        { label: "Popular TV Series", items: popularSeries?.results, type: "tv" as const, keyField: "name" as const, dateField: "first_air_date" as const },
+        { label: "Top Rated Movies", items: topRatedMovies?.results, type: "movie" as const, keyField: "title" as const, dateField: "release_date" as const },
+        { label: "Top Rated TV Series", items: topRatedSeries?.results, type: "tv" as const, keyField: "name" as const, dateField: "first_air_date" as const },
+    ];
+
     return (
         <div className='space-y-10'>
             <Hero show={heroItem} />
-            <section className='px-4 space-y-4 '>
-                <h2 className='text-stone-500 uppercase font-semibold text-xl'>Trending Movies</h2>
-                <div className='  pb-2 flex items-center gap-3 overflow-x-auto pr-4 scrollbar-thin'>
-                    {trendingMovies?.results.map((movie) => (
-                        <CardSection key={`movie-trending-${movie.id}${movie.title}`} show={{ ...movie, title: movie.title, year: movie.release_date, media_type: "movie" }} />
-                    ))}
-                </div>
-            </section>
-            <section className='px-4 space-y-4'>
-                <h2 className='text-stone-500 uppercase font-semibold text-xl'>Trending TV Series</h2>
-                <div className='  pb-2 flex items-center gap-3 overflow-x-auto pr-4 scrollbar-thin'>
-                    {trendingSeries?.results.map((tv) => (
-                        <CardSection key={`tv-trending-${tv.id}${tv.name}`} show={{ ...tv, title: tv.name, year: tv.first_air_date, media_type: "tv" }} />
-                    ))}
-                </div>
-            </section>
-            <section className='px-4 space-y-4'>
-                <h2 className='text-stone-500 uppercase font-semibold text-xl'>Upcoming Movies</h2>
-                <div className='  pb-2 flex items-center gap-3 overflow-x-auto pr-4 scrollbar-thin'>
-                    {upcomingMovies?.results.map((movie) => (
-                        <CardSection key={`upcoming-movie-${movie.id}${movie.title}`} show={{ ...movie, title: movie.title, year: movie.release_date, media_type: "movie" }} />
-                    ))}
-                </div>
-            </section>
-            <section className='px-4 space-y-4'>
-                <h2 className='text-stone-500 uppercase font-semibold text-xl'>Popular Movies</h2>
-                <div className='  pb-2 flex items-center gap-3 overflow-x-auto pr-4 scrollbar-thin'>
-                    {popularMovies?.results.map((movie) => (
-                        <CardSection key={`popular-movie-${movie.id}${movie.title}`} show={{ ...movie, title: movie.title, year: movie.release_date, media_type: "movie" }} />
-                    ))}
-                </div>
-            </section>
-            <section className='px-4 space-y-4'>
-                <h2 className='text-stone-500 uppercase font-semibold text-xl'>Popular TV Series</h2>
-                <div className='  pb-2 flex items-center gap-3 overflow-x-auto pr-4 scrollbar-thin'>
-                    {popularSeries?.results.map((tv) => (
-                        <CardSection key={`tv-popular-${tv.id}${tv.name}`} show={{ ...tv, title: tv.name, year: tv.first_air_date, media_type: "tv" }} />
-                    ))}
-                </div>
-            </section>
-            <section className='px-4 space-y-4'>
-                <h2 className='text-stone-500 uppercase font-semibold text-xl'>Top Rated Movies</h2>
-                <div className='  pb-2 flex items-center gap-3 overflow-x-auto pr-4 scrollbar-thin'>
-                    {topRatedMovies?.results.map((movie) => (
-                        <CardSection key={`top-rated-movie-${movie.id}${movie.title}`} show={{ ...movie, title: movie.title, year: movie.release_date, media_type: "movie" }} />
-                    ))}
-                </div>
-            </section>
-            <section className='px-4 space-y-4'>
-                <h2 className='text-stone-500 uppercase font-semibold text-xl'>Top Rated TV Series</h2>
-                <div className='  pb-2 flex items-center gap-3 overflow-x-auto pr-4 scrollbar-thin'>
-                    {topRatedSeries?.results.map((tv) => (
-                        <CardSection key={`tv-top-rated-${tv.id}${tv.name}`} show={{ ...tv, title: tv.name, year: tv.first_air_date, media_type: "tv" }} />
-                    ))}
-                </div>
-            </section>
-
+            <div className="max-w-7xl mx-auto w-full px-4 space-y-10">
+                {sections.map(({ label, items, type, keyField, dateField }) => (
+                    <section key={label} className='space-y-4'>
+                        <h2 className='text-stone-500 uppercase font-semibold text-xl'>{label}</h2>
+                        <div className='pb-2 flex items-center gap-3 overflow-x-auto scrollbar-thin'>
+                            {items?.map((item: any) => (
+                                <CardSection
+                                    key={`${type}-${label}-${item.id}`}
+                                    show={{
+                                        ...item,
+                                        title: item[keyField],
+                                        year: item[dateField],
+                                        media_type: type,
+                                    }}
+                                />
+                            ))}
+                        </div>
+                    </section>
+                ))}
+            </div>
         </div>
     )
 }
 
-export default Home
+export default Home;

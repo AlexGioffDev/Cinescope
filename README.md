@@ -1,19 +1,23 @@
 # Cinescope
 
-Qui descrizione
+Find info and more about movies and tv series! create your own watchlist!
 
 ## Preview
 
+![preview](/screenshots/showcase.png)
+
 ## Roadmap
+
 - [x] Type TypeScript
 - [x] Create functions that call tmdb api for get data
 - [x] Create custom hooks with React Query
 - [x] Zustand for theme and watchlist
 - [x] Routing
-- [ ] Components
-- [ ] UI
+- [x] Components
+- [/] UI
 
 ## Pages
+
 - Homepage - All trending movies and tv series
 - Movies - All Movies divide by genres, rating...
 - Series - All Tv Series divide by genres, rating...
@@ -21,4 +25,3 @@ Qui descrizione
 - Series/{id} - Page for single tv series with some data
 - Search - Page with results of research
 - Watchlist - Page with user watchlist show
-

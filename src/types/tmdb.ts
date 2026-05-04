@@ -39,21 +39,15 @@ export interface TvResponse {
 
 export interface MovieFilter {
     with_genres?: number;
-    "vote_average.gte"?: number;
     sort_by?:
     | "popularity.desc"
     | "vote_average.desc"
     | "primary_release_date.desc";
-    "primary_release_date.gte"?: string;
-    "primary_release_date.lte"?: string;
 }
 
 export interface SeriesFilters {
     with_genres?: number;
-    "vote_average.gte"?: number;
     sort_by?: "popularity.desc" | "vote_average.desc" | "first_air_date.desc";
-    "first_air_date.gte"?: string;
-    "first_air_date.lte"?: string;
 }
 
 interface CastMember {

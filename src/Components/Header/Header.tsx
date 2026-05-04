@@ -1,66 +1,81 @@
 import { useEffect, useState } from "react";
 import { useScrollContext } from "../../context/ScrollContext"
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import SearchInput from "../SearchInput/SearchInput";
 
 const Header = () => {
     const scrolled = useScrollContext();
     const [menuOpen, setMenuOpen] = useState(false);
-    const [searchOpen, setSearchOpen] = useState(false);
 
     useEffect(() => {
-        if (menuOpen) {
-            document.documentElement.style.overflow = 'hidden';
-        } else {
-            document.documentElement.style.overflow = '';
-        }
+        document.documentElement.style.overflow = menuOpen ? 'hidden' : '';
     }, [menuOpen])
+
+    const navLinks = [
+        { to: "/", label: "Home" },
+        { to: "/movies", label: "Movies" },
+        { to: "/series", label: "Tv" },
+        { to: "/watchlist", label: "Watchlist" },
+    ];
 
     return (
         <>
-            <header className={`fixed top-0 w-full z-50 transition-all duration-300   
-                    ${scrolled ? 'bg-amber-300 shadow-lg' : 'bg-transparent text-stone-50'}`
-            }>
+            <header className={`fixed top-0 w-full z-50 transition-all duration-300 
+                ${scrolled ? 'bg-stone-900/80 backdrop-blur-md shadow-lg' : 'bg-transparent'} text-stone-50`}>
+
                 {/* Mobile */}
-                <div className="md:hidden flex items-center justify-between mx-auto  px-4 py-2 ">
+                <div className="md:hidden flex items-center justify-between px-4 py-2">
                     <button onClick={() => setMenuOpen(pre => !pre)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            strokeWidth={1.5} stroke="currentColor" className="size-8 shrink-0">
+                            <path strokeLinecap="round" strokeLinejoin="round"
+                                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
                         </svg>
                     </button>
-                    <button onClick={() => setSearchOpen(pre => !pre)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                        </svg>
-                    </button>
+                    <SearchInput />
                 </div>
 
+                {/* Tablet & Desktop */}
+                <div className="hidden md:flex items-center gap-6 px-8 py-3 max-w-7xl mx-auto w-full">
+                    {/* Logo */}
+                    <Link to="/" className="shrink-0">
+                        <span className="font-black text-xl tracking-tight uppercase text-amber-300">Cinescope</span>
+                    </Link>
+
+                    <div className="flex-1 max-w-sm">
+                        <SearchInput variant="desktop" />
+                    </div>
+
+                    {/* Nav links */}
+                    <nav className="flex items-center gap-6 ml-auto">
+                        {navLinks.map(({ to, label }) => (
+                            <NavLink
+                                key={to}
+                                to={to}
+                                className={({ isActive }) =>
+                                    `text-sm font-semibold uppercase tracking-wide transition-colors duration-200
+                                    ${isActive ? 'text-amber-300' : 'text-stone-300 hover:text-stone-50'}`
+                                }
+                            >
+                                {label}
+                            </NavLink>
+                        ))}
+                    </nav>
+                </div>
             </header>
 
-            {/* Menu Mobile  */}
-            <nav onClick={() => setMenuOpen(false)} className={`fixed left-0 right-0 z-40 h-dvh backdrop-blur-md flex flex-col gap-y-4 items-center justify-center bg-white/10 border border-white/20 transition-all duration-300 ease-in ${menuOpen ? 'top-0 opacity-100' : '-top-full opacity-0'}`}>
-                <Link to="/">
-                    <p className="font-serif font-medium text-2xl capitalize text-stone-50">Home</p>
-                </Link>
-                <Link to="/movies">
-                    <p className="font-serif font-medium text-2xl capitalize text-stone-50">Movies</p>
-                </Link>
-                <Link to="/series">
-                    <p className="font-serif font-medium text-2xl capitalize text-stone-50">Tv</p>
-                </Link>
-                <Link to="/watchlist">
-                    <p className="font-serif font-medium text-2xl capitalize text-stone-50">Watchlist</p>
-                </Link>
+            {/* Menu Mobile */}
+            <nav onClick={() => setMenuOpen(false)}
+                className={`fixed left-0 right-0 z-40 h-dvh backdrop-blur-md flex flex-col gap-y-6 items-center justify-center bg-stone-900/90 transition-all duration-300 ease-in-out
+                ${menuOpen ? 'top-0 opacity-100' : '-top-full opacity-0'}`}>
+                {navLinks.map(({ to, label }) => (
+                    <Link key={to} to={to} onClick={() => setMenuOpen(false)}>
+                        <p className="font-serif font-medium text-2xl capitalize text-stone-50 hover:text-amber-300 transition-colors">{label}</p>
+                    </Link>
+                ))}
             </nav>
-
-            {/* Search Mobile */}
-            <div className={`absolute top-14 z-40 left-0 w-full bg-red-800 transition-all duration-300 overflow-hidden
-    ${searchOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
-                <div className="p-4">
-                    <h1>Search Here TODO</h1>
-                </div>
-            </div>
         </>
     )
 }
 
-export default Header
+export default Header;
