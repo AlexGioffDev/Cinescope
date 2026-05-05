@@ -4,14 +4,17 @@ import { movieGenres } from "../lib/genres"
 import type { MovieFilter } from "../types/tmdb"
 import CardSection from "../Components/Cards/CardSection"
 import Hero from "../Components/Hero/Hero"
+import Error from "../Components/Error/Error"
+import Loading from "../Components/Loading/Loading"
+import Empty from "../Components/Empty/Empty"
 
 const Movies = () => {
     const [filters, setFilters] = useState<MovieFilter>({})
     const { hasNextPage, isError, isLoading, fetchNextPage, data } = useMovies(filters)
 
-    if (isError) return <p>Error</p>
-    if (isLoading) return <p>Is Loading...</p>
-    if (!data) return <p>No Data</p>
+    if (isError) return <Error />
+    if (isLoading) return <Loading />
+    if (!data) return <Empty />
 
     const movies = data.pages.flatMap((page) => page.results)
 

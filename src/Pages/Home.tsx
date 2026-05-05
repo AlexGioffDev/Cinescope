@@ -1,13 +1,15 @@
 import CardSection from '../Components/Cards/CardSection';
+import Error from '../Components/Error/Error';
 import Hero from '../Components/Hero/Hero';
+import Loading from '../Components/Loading/Loading';
 import { useTrendingAll, } from '../hooks/useGetHome'
 import type { MovieResponse, TvResponse } from '../types/tmdb';
 
 const Home = () => {
     const { isLoading, isError, heroItem, trendingMovies, trendingSeries, popularMovies, popularSeries, topRatedMovies, topRatedSeries, upcomingMovies } = useTrendingAll();
 
-    if (isLoading) return <p>Loading...</p>
-    if (isError) return <p>Error loading data</p>
+    if (isLoading) return <Loading />
+    if (isError) return <Error />
 
     type SectionItem = MovieResponse | TvResponse;
 

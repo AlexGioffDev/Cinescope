@@ -7,6 +7,7 @@ import Movie from "../Pages/Movie";
 import Tv from "../Pages/Tv";
 import Search from "../Pages/Search";
 import Watchlist from "../Pages/Watchlist";
+import NotFound from "../Components/NotFound/NotFound";
 
 export const router = createBrowserRouter([
     {
@@ -40,6 +41,7 @@ export const router = createBrowserRouter([
                 path: "/series/:id",
                 element: <Tv />
             },
+            { path: "*", element: <NotFound /> },
 
         ]
     }

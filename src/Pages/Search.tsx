@@ -1,15 +1,18 @@
 import { useSearchParams } from "react-router-dom"
 import { useSearch } from "../hooks/useSearch";
 import CardSection from "../Components/Cards/CardSection";
+import Loading from "../Components/Loading/Loading";
+import Error from "../Components/Error/Error";
+import Empty from "../Components/Empty/Empty";
 
 const Search = () => {
     const [searchParams] = useSearchParams();
     const query = searchParams.get('q') ?? '';
     const { data, isLoading, isError } = useSearch(query);
 
-    if (isLoading) return <p>Is Loading</p>
-    if (isError) return <p>Is Error</p>
-    if (!data) return <p>No Data</p>
+    if (isLoading) return <Loading />
+    if (isError) return <Error />
+    if (!data) return <Empty />
 
     return (
         <div className="w-full min-h-screen pt-20">

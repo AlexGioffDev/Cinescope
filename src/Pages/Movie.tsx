@@ -2,14 +2,17 @@ import { useParams } from "react-router-dom"
 import { useMovie } from "../hooks/useMovie";
 import { formatCurrency } from "../lib/util";
 import CardSection from "../Components/Cards/CardSection";
+import Loading from "../Components/Loading/Loading";
+import Error from "../Components/Error/Error";
+import Empty from "../Components/Empty/Empty";
 
 const Movie = () => {
     const { id } = useParams();
     const { movie, isLoading, isError } = useMovie(Number(id));
 
-    if (isLoading) return <p>IsLoading</p>
-    if (isError) return <p>IsError</p>
-    if (!movie) return <p>No Data!!!</p>
+    if (isLoading) return <Loading />
+    if (isError) return <Error />
+    if (!movie) return <Empty />
 
     return (
         <div className="w-full h-auto flex flex-col gap-y-4">

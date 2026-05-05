@@ -10,9 +10,7 @@ const Hero = ({ show }: HeroProps) => {
     const path = show?.media_type === "tv" ? `/series/${show.id}` : `/movies/${show?.id}`;
 
     return (
-        <div
-            className="w-full h-[80dvh] relative"
-        >
+        <div className="w-full h-[80dvh] relative">
             <picture>
                 <source media="(max-width: 768px)" srcSet={`https://image.tmdb.org/t/p/w500${show?.poster_path}`} />
                 <source media="(min-width: 769px)" srcSet={`https://image.tmdb.org/t/p/original${show?.backdrop_path}`} />
@@ -23,9 +21,8 @@ const Hero = ({ show }: HeroProps) => {
             <div className="absolute inset-0 bg-linear-to-r from-stone-800/60 via-transparent to-transparent" />
             <div className="absolute inset-0 bg-linear-to-b from-stone-800/20 via-40% via-transparent to-transparent" />
 
-            {/* Info */}
-            <div className="absolute inset-0 flex flex-col justify-end p-4 gap-y-1">
-                <div className="flex items-center gap-1">
+            <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-8 gap-y-1 max-w-7xl mx-auto w-full left-0 right-0">
+                <div className="flex items-center gap-2">
                     {show?.media_type === "movie" && show.genres.slice(0, 4).map(g => (
                         <p key={`hero-show-${show.title}-${g}`} className="text-stone-300 font-light text-xs tracking-tight">{movieGenres[g]}</p>
                     ))}
@@ -33,15 +30,13 @@ const Hero = ({ show }: HeroProps) => {
                         <p key={`hero-show-${show.title}-${g}`} className="text-stone-300 font-light text-xs tracking-tight">{tvGenres[g]}</p>
                     ))}
                 </div>
-                <p className="text-stone-50 uppercase font-bold text-3xl tracking-tight leading-tight">{show?.title}</p>
+                <p className="text-stone-50 uppercase font-bold text-3xl md:text-5xl tracking-tight leading-tight max-w-xl">{show?.title}</p>
                 <Link to={path}>
-                    <button className="bg-stone-800 text-white py-0.5 px-4 rounded-lg border border-white/30">
+                    <button className="mt-1 bg-stone-800 text-white py-1 px-5 rounded-lg border border-white/30 text-sm hover:bg-stone-700 transition-colors">
                         See more
                     </button>
                 </Link>
-
             </div>
-
         </div>
     )
 }

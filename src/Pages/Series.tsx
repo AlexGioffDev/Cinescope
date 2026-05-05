@@ -4,14 +4,17 @@ import type { SeriesFilters } from "../types/tmdb"
 import Hero from "../Components/Hero/Hero"
 import { tvGenres } from "../lib/genres"
 import CardSection from "../Components/Cards/CardSection"
+import Loading from "../Components/Loading/Loading"
+import Error from "../Components/Error/Error"
+import Empty from "../Components/Empty/Empty"
 
 const Series = () => {
     const [filters, setFilters] = useState<SeriesFilters>({})
     const { data, isError, isLoading, hasNextPage, fetchNextPage } = useSeries(filters)
 
-    if (isLoading) return <p>Is Loading</p>
-    if (isError) return <p>Is Error</p>
-    if (!data) return <p>No Data</p>
+    if (isLoading) return <Loading />
+    if (isError) return <Error />
+    if (!data) return <Empty />
 
     const series = data.pages.flatMap((page) => page.results)
 

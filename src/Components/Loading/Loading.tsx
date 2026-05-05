@@ -1,0 +1,10 @@
+const Loading = () => (
+    <div className="w-full min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+            <div className="w-10 h-10 border-4 border-stone-600 border-t-amber-300 rounded-full animate-spin" />
+            <p className="text-stone-500 uppercase tracking-widest text-sm font-semibold">Loading</p>
+        </div>
+    </div>
+)
+
+export default Loading
